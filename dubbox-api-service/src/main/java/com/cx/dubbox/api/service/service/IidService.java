@@ -9,4 +9,7 @@ package com.cx.dubbox.api.service.service;
  * @CreateDate 2018年07月06日 <br>
  */
 public interface IidService {
+
+    String getInnerRequestId();
+
 }

@@ -1,6 +1,7 @@
 package com.cx.dubbox.api.service.config;
 
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 /**
  * <Description> service包的配置类 <br>
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @taskId <br>
  * @CreateDate 2018年07月06日 <br>
  */
-@ComponentScan(basePackages = "com.cx.dubbox.api.service")
+@Import({com.cx.dubbox.api.service.service.defaults.config.Config.class})
+@ComponentScan(basePackages = "com.cx.dubbox.api.service.service.impl")
 public class Config {
 }

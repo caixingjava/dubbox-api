@@ -10,12 +10,35 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbox-api-core</artifactId>
+    <properties>
+        <guava.version>19.0</guava.version>
+        <servlet.version>3.0.1</servlet.version>
+        <common.version>1.2</common.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.cx.dubbox.api</groupId>
-            <artifactId>dubbox-api-common</artifactId>
+            <artifactId>dubbox-api-service</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-chain</groupId>
+            <artifactId>commons-chain</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+
     </dependencies>
 
 
