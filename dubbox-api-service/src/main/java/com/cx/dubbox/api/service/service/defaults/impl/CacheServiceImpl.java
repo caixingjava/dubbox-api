@@ -1,10 +1,12 @@
 package com.cx.dubbox.api.service.service.defaults.impl;
 
 import com.cx.dubbox.api.service.service.IcacheService;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class CacheServiceImpl implements IcacheService {
 
     private Map<String, Object> m = new HashMap<>();

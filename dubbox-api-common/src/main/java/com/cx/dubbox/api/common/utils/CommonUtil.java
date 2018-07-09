@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class CommonUtil implements Serializable {
 
     private static final long serialVersionUID = 1396910125184138530L;
-    public static final String API_SERVICE_KEY = "dubboxapi.service.HandlerExecuteTemplate";
+    public static final String API_SERVICE_KEY = "dubboxApiServiceHandlerExecuteTemplateImpl";
     public static final String API_SYSERVICE_KEY = "dubboxapi.syService";
     public static final String API_GETDATA_KEY = "dubboxapi.getSyData";
     public static final String HTTP = "http";

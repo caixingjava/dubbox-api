@@ -6,6 +6,8 @@ import com.cx.dubbox.api.service.service.IapiInterfaceService;
 import com.cx.dubbox.api.service.service.IloadBalanceService;
 import lombok.extern.slf4j.Slf4j;
 import org.I0Itec.zkclient.ZkClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
+@Service
 public class ZkApiInterfaceServiceImpl implements IapiInterfaceService {
 
     private static final String REST = "rest";
@@ -24,13 +27,17 @@ public class ZkApiInterfaceServiceImpl implements IapiInterfaceService {
     private static final String REST_SLASH = REST + "://";
     private static final String SLASH = "/";
 
+    @Value("${zk.rootpath}")
     private String rootPath;
 
+    @Value("${zk.zkservers}")
     private String zkServers;
 
     private ZkClient zkClient;
 
     private IloadBalanceService loadBalancerService;
+
+    private static final ConcurrentHashMap<String, List<String>> hosts = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void init() {
@@ -48,6 +55,15 @@ public class ZkApiInterfaceServiceImpl implements IapiInterfaceService {
     @Override
     public ApiEntity queryApiInterfaceByApiId(String apiId, String version) {
 
+        List<String> sets = hosts.get(apiId);
+        if (sets != null) {
+            String hostAddress = loadBalancerService.chooseOne(apiId, version, sets);
+            ApiEntity apiInterface = new ApiEntity();
+            apiInterface.setApiId(apiId);
+            apiInterface.setProtocol(CommonUtil.HTTP);
+            apiInterface.setHostAddress(hostAddress);
+            return apiInterface;
+        }
         return null;
     }
 
@@ -90,6 +106,7 @@ public class ZkApiInterfaceServiceImpl implements IapiInterfaceService {
                             // /dubbo-online/com.z.test.Testapi/rest://localhost:8080
                             if (thirdGeneration != null && thirdGeneration.size() > 0) {
                                 for (String thirdChild : thirdGeneration) {
+                                    thirdChild = URLDecoder.decode(thirdChild);
                                     if (thirdChild.startsWith(REST)) {
                                         /*
                                          * 样例
@@ -114,6 +131,10 @@ public class ZkApiInterfaceServiceImpl implements IapiInterfaceService {
                 }
             }
 
+        }
+        synchronized (this) {
+            hosts.clear();
+            hosts.putAll(newHosts);
         }
     }
 

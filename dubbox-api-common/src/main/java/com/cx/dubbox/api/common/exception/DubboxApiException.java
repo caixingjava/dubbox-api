@@ -62,6 +62,34 @@ public class DubboxApiException extends RuntimeException {
 
     /**
      * Description: 有参构造 <br>
+     * @param errorEnum 错误提示信息
+     * @author caixing<br>
+     * @taskId <br>
+     *
+     */
+    public DubboxApiException(DubboxApiServiceErrorEnum errorEnum){
+        super(errorEnum.getErrorMessage());
+        this.errorCode = errorEnum.getErrorCode();
+        this.errorMessage = errorEnum.getErrorMessage();
+    }
+
+    /**
+     * Description: 有参构造 <br>
+     * @param errorEnum 错误提示信息
+     * @param cause 捕捉到的异常信息
+     * @author caixing<br>
+     * @taskId <br>
+     *
+     */
+    public DubboxApiException(DubboxApiServiceErrorEnum errorEnum,Throwable cause){
+        super(errorEnum.getErrorMessage(),cause);
+        this.errorCode = errorEnum.getErrorCode();
+        this.errorMessage = errorEnum.getErrorMessage();
+    }
+
+
+    /**
+     * Description: 有参构造 <br>
      * @param errorMessage 错误提示信息
      * @author caixing<br>
      * @taskId <br>
